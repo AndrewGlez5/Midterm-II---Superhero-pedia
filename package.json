@@ -1,0 +1,20 @@
+{
+  "name": "midterm-ii---superhero-pedia",
+  "version": "1.0.0",
+  "description": "2nd Midterm Web Application",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Superhero",
+    "API",
+    "Midterm2"
+  ],
+  "author": "Omar A. Andres G.",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.1"
+  }
+}

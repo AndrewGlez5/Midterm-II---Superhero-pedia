@@ -4,32 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Superheroes</title>
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .character-card {
-            margin: 20px;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .character-card:hover {
-            transform: scale(1.05);
-        }
-    </style>
+    <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/characters">Superhero Viewer</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <form class="d-flex" action="/searching" method="POST">
+                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="searched">
+                  <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
     <div class="container">
         <h1 class="text-center my-4">All Superheroes</h1>
         <div class="row">
             <% characterList.forEach(character => { %>
                 <div class="col-md-3">
                     <div class="card character-card" onclick="window.location='/<%= character.id %>'">
-                        <img src="<%= character.image %>" class="card-img-top" alt="<%= character.name %> Image"> <!-- Mostrar la imagen del personaje -->
+                        <img src="<%= character.image %>" class="card-img-top" alt="<%= character.name %> Image">
                         <div class="card-body">
-                            <h5 class="card-title"><%= character.name %></h5> <!-- Mostrar el nombre del personaje -->
+                            <h5 class="card-title"><%= character.name %></h5>
                         </div>
                     </div>
                 </div>
@@ -37,7 +44,6 @@
         </div>
     </div>
 
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

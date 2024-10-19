@@ -3,22 +3,21 @@ const express = require('express');
 const NodeCache = require('node-cache');
 const app = express();
 
-// Configuración de la caché con un TTL de 1 hora
 const cache = new NodeCache({ stdTTL: 3600 });
 
 app.set('view engine', 'ejs');
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 const characterIds = [...Array(731).keys()].map(i => i + 1);
 
-// Función para obtener un personaje por ID con caché
 function getCharacterById(id, callback) {
     const cachedCharacter = cache.get(id);
     if (cachedCharacter) {
         return callback(null, cachedCharacter);
     }
 
-    const url = https://akabab.github.io/superhero-api/api/id/${id}.json;
+    const url = `https://akabab.github.io/superhero-api/api/id/${id}.json`;
 
     https.get(url, (response) => {
         let data = '';
@@ -30,7 +29,7 @@ function getCharacterById(id, callback) {
         response.on('end', () => {
             try {
                 const character = JSON.parse(data);
-                cache.set(id, character);  // Almacenar en caché
+                cache.set(id, character);
                 callback(null, character);
             } catch (error) {
                 callback(error, null);
@@ -41,7 +40,6 @@ function getCharacterById(id, callback) {
     });
 }
 
-// Función para obtener un personaje por nombre
 function getCharacterByName(name, callback) {
     const url = 'https://akabab.github.io/superhero-api/api/all.json';
 
@@ -58,12 +56,12 @@ function getCharacterByName(name, callback) {
                 const character = characters.find(char => char.name.toLowerCase() === name.toLowerCase());
 
                 if (character) {
-                    callback(character, character.id);  // Devolver el ID del personaje
+                    return callback(null, character);
                 } else {
-                    callback(new Error('Character not found'), null);
+                    return callback(new Error('Character not found'), null);
                 }
-            } catch (error) {
-                callback(error, null);
+            } catch (err) {
+                callback(err, null);
             }
         });
     }).on('error', (err) => {
@@ -129,7 +127,7 @@ app.get('/:id', (req, res) => {
         if (err || !character) {
             const currentIndex = characterIds.indexOf(id);
             findNextValidId(currentIndex, 1, (err, nextValidId) => {
-                return res.redirect(/${nextValidId});
+                return res.redirect(`/${nextValidId}`);
             });
         } else {
             const currentIndex = characterIds.indexOf(id);
@@ -147,20 +145,29 @@ app.get('/:id', (req, res) => {
     });
 });
 
-app.post('/searching', async (req, res) => {
-    const name = req.query.searched;  // Obtener la consulta de búsqueda desde la URL
-    console.log(name);
+app.post('/searching', (req, res) => {
+    const name = req.body.searched;
     
-    if (!name) {
-        return res.status(400).send('Search query cannot be empty');
+    if (!name || name.trim() === "") {
+        return res.render('error', { message: 'Search query cannot be empty' });
     }
-    
-    getCharacterByName(name, (character, validId) => {
-        if (character) {
-            res.render("index", { character, currentId: validId });
-        } else {
-            res.render("error");
+
+    getCharacterByName(name, (err, character) => {
+        if (err) {
+            console.error(err);
+            return res.status(404).render('error', { message: 'Character not found' });
         }
+
+        const currentIndex = characterIds.indexOf(character.id);
+        
+        const previousCharacterId = currentIndex > 0 ? characterIds[currentIndex - 1] : characterIds[characterIds.length - 1];
+        const nextCharacterId = currentIndex < characterIds.length - 1 ? characterIds[currentIndex + 1] : characterIds[0];
+
+        res.render("index", { 
+            character,
+            previousCharacterId,
+            nextCharacterId
+        });
     });
 });
 

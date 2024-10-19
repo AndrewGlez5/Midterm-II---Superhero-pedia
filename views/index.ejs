@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= character.name %> - Superhero Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
           <a class="navbar-brand" href="/characters">Superhero Viewer</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,10 +19,18 @@
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
               <li class="nav-item">
-                <a class="nav-link" href="/<%= previousCharacterId %>"><strong>&larr; Previous</strong></a>
+                <a class="nav-link" href="/<%= previousCharacterId %>">
+                  <button class="btn btn-outline-light">
+                    &#8592;
+                  </button>
+                </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/<%= nextCharacterId %>"><strong>Next &rarr;</strong></a>
+                <a class="nav-link" href="/<%= nextCharacterId %>">
+                  <button class="btn btn-outline-light">
+                    &#8594;
+                  </button>
+                </a>
               </li>
               <li class="nav-item">
                 <form class="d-flex" action="/searching" method="POST">
@@ -32,72 +41,84 @@
             </ul>
           </div>
         </div>
-      </nav>
+    </nav>
 
     <div class="character-container">
         <img src="<%= character.images.lg %>" class="character-image" alt="<%= character.name %>">
 
         <div class="character-info">
-            <h4 class="card-title"><%= character.name %> (<%= character.biography.fullName %>)</h4>
-            <p><strong>ID:</strong> <%= character.id %></p>
+            <h3 class="card-title text-light"><strong><%= character.name %> (<%= character.biography.fullName %>)</strong></h3>
+            <hr/>
+            <p class="text-light"><strong>ID:</strong> <%= character.id %></p>
             <div class="row">
                 <div class="col-md-6">
-                    <p><strong>Gender:</strong> <%= character.appearance.gender %></p>
-                    <p><strong>Height:</strong> <%= character.appearance.height[1].startsWith("0") ? "Unknown" : character.appearance.height[1] %> (<%= character.appearance.height[0].startsWith("0") ? "Unknown" : character.appearance.height[0] %>)</p>
-                    <p><strong>Weight:</strong> <%= character.appearance.weight[1].startsWith("0") ? "Unknown" : character.appearance.weight[1] %> (<%= character.appearance.weight[0].startsWith("0") ? "Unknown" : character.appearance.weight[0] %>)</p>
+                    <p class="text-light"><strong>Gender:</strong> <%= character.appearance.gender %></p>
+                    <p class="text-light"><strong>Height:</strong> <%= character.appearance.height[1].startsWith("0") ? "Unknown" : character.appearance.height[1] %> (<%= character.appearance.height[0].startsWith("0") ? "Unknown" : character.appearance.height[0] %>)</p>
+                    <p class="text-light"><strong>Weight:</strong> <%= character.appearance.weight[1].startsWith("0") ? "Unknown" : character.appearance.weight[1] %> (<%= character.appearance.weight[0].startsWith("0") ? "Unknown" : character.appearance.weight[0] %>)</p>
                 </div>
                 <div class="col-md-6">
-                    <p><strong>Race:</strong> <%= character.appearance.race ? character.appearance.race : 'Unknown' %></p>
-                    <p><strong>Eye Color:</strong> <%= character.appearance.eyeColor %></p>
-                    <p><strong>Hair Color:</strong> <%= character.appearance.hairColor %></p>
+                    <p class="text-light"><strong>Race:</strong> <%= character.appearance.race ? character.appearance.race : 'Unknown' %></p>
+                    <p class="text-light"><strong>Eye Color:</strong> <%= character.appearance.eyeColor %></p>
+                    <p class="text-light"><strong>Hair Color:</strong> <%= character.appearance.hairColor %></p>
                 </div>
             </div>
 
-            <h6 class="mt-3">Powerstats</h6>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Stat</th>
-                        <th>Value</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>Intelligence</td><td><%= character.powerstats.intelligence %></td></tr>
-                    <tr><td>Strength</td><td><%= character.powerstats.strength %></td></tr>
-                    <tr><td>Speed</td><td><%= character.powerstats.speed %></td></tr>
-                    <tr><td>Durability</td><td><%= character.powerstats.durability %></td></tr>
-                    <tr><td>Power</td><td><%= character.powerstats.power %></td></tr>
-                    <tr><td>Combat</td><td><%= character.powerstats.combat %></td></tr>
-                </tbody>
-            </table>
+            <h6 class="mt-3 text-light">Powerstats</h6>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item bg-dark text-light"><strong>Intelligence:</strong> <span class="badge text-bg-primary rounded-pill"><%= character.powerstats.intelligence %></span></li>
+                <li class="list-group-item bg-dark text-light"><strong>Strength:</strong> <span class="badge text-bg-primary rounded-pill"><%= character.powerstats.strength %></span></li>
+                <li class="list-group-item bg-dark text-light"><strong>Speed:</strong> <span class="badge text-bg-primary rounded-pill"><%= character.powerstats.speed %></span></li> 
+                <li class="list-group-item bg-dark text-light"><strong>Durability:</strong> <span class="badge text-bg-primary rounded-pill"><%= character.powerstats.durability %></span></li>
+                <li class="list-group-item bg-dark text-light"><strong>Power:</strong> <span class="badge text-bg-primary rounded-pill"><%= character.powerstats.power %></span></li>
+                <li class="list-group-item bg-dark text-light"><strong>Combat:</strong> <span class="badge text-bg-primary rounded-pill"><%= character.powerstats.combat %></span></li>
+            </ul>
 
-            <h6 class="mt-3">Place of Birth</h6>
-            <p><%= character.biography.placeOfBirth ? character.biography.placeOfBirth : 'Unknown' %></p>
+            <div class="accordion mt-4" id="extraInfoAccordion">
+                <div class="accordion-item bg-dark text-light">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                            Extra Information
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#extraInfoAccordion">
+                        <div class="accordion-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6 class="text-light"><strong>Place of Birth</strong></h6>
+                                    <p><%= character.biography.placeOfBirth ? character.biography.placeOfBirth : 'Unknown' %></p>
+                                    
+                                    <h6 class="text-light"><strong>Aliases</strong></h6>
+                                    <% if (character.biography.aliases.length > 0) { %>
+                                        <ul>
+                                            <% character.biography.aliases.forEach(function(alias) { %>
+                                                <li><%= alias %></li>
+                                            <% }); %>
+                                        </ul>
+                                    <% } else { %>
+                                        <p>No known aliases.</p>
+                                    <% } %>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="text-light"><strong>Biography</strong></h6>
+                                    <p><%= character.biography.alignment === 'good' ? 'Hero' : 'Villain' %></p>
 
-            <h6 class="mt-3">Biography</h6>
-            <p><%= character.biography.alignment === 'good' ? 'Hero' : 'Villain' %></p>
+                                    <h6 class="text-light"><strong>Group Affiliation</strong></h6>
+                                    <% if (character.connections.groupAffiliation) { %>
+                                        <ul>
+                                            <% character.connections.groupAffiliation.split(',').forEach(function(group) { %>
+                                                <li><%= group %></li>
+                                            <% }); %>
+                                        </ul>
+                                    <% } else { %>
+                                        <p>No group affiliations.</p>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            <h6 class="mt-3">Aliases</h6>
-            <% if (character.biography.aliases.length > 0) { %>
-                <ul>
-                    <% character.biography.aliases.forEach(function(alias) { %>
-                        <li><%= alias %></li>
-                    <% }); %>
-                </ul>
-            <% } else { %>
-                <p>No known aliases.</p>
-            <% } %>
-
-            <h6 class="mt-3">Group Affiliation</h6>
-            <% if (character.connections.groupAffiliation) { %>
-                <ul>
-                    <% character.connections.groupAffiliation.split(',').forEach(function(group) { %>
-                        <li><%= group %></li>
-                    <% }); %>
-                </ul>
-            <% } else { %>
-                <p>No group affiliations.</p>
-            <% } %>
         </div>
     </div>
 
